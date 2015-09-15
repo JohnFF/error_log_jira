@@ -1,0 +1,91 @@
+<?php
+
+/**
+ * @file
+ * Main file of error_log_jira module.
+ *
+ * A module that takes the log messages from watchdog and send them as
+ * issues to jira.
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function error_log_jira_menu() {
+
+  // Documentation main page.
+  $items['admin/config/development/logging/jira'] = array(
+    'title'            => 'Error Log Jira',
+    'description'      => 'Settings for sending log messages to a jira project as issues.',
+    'page callback'    => 'drupal_get_form',
+    'page arguments'   => array('error_log_jira_settings_form'),
+    'access arguments' => array('administer error log jira'),
+    'type'             => MENU_NORMAL_ITEM,
+    'file'             => 'includes/error_log_jira.admin.inc',
+  );
+  return $items;
+}
+
+/**
+ * Implements hook_permission().
+ */
+function error_log_jira_permission() {
+  return array(
+    'administer error log jira' => array(
+      'title'       => t('Administer Error Log Jira'),
+      'description' => t('Error log jira settings.'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_help().
+ */
+function error_log_jira_help($path) {
+  switch ($path) {
+    case 'admin/help#error_log_jira':
+      return '<p>' . t('A module that takes the log messages from watchdog and
+        send them as issues to jira. ') . '</p>';
+  }
+}
+
+/**
+ * Implements hook_cron().
+ */
+function error_log_jira_cron() {
+  // Check if the user has selected a number or No Values.
+  if (variable_get('error_log_jira_number_select'. '0') != '0') {
+    module_load_include('inc', 'error_log_jira', 'includes/error_log_jira.functions');
+
+    // The $number is the number of the items that will
+    // be checked in database on each cron run.
+    $number          = variable_get('error_log_jira_number_select', '0');
+    // The severities that the user has selected.
+    $severity_levels = variable_get('error_log_jira_severity_levels', array());
+    // Information from jira_rest module.
+    $username        = variable_get('jira_rest_username', '<your username>');
+    $password        = variable_get('jira_rest_password', '');
+    $options         = array('username' => $username, 'password' => $password);
+    $project_key     = variable_get('error_log_jira_key', '');
+
+    // Gets resolution from jira.
+    error_log_jira_update_resolution($options, $project_key, $number);
+
+    // Select the items from watchdog leftjoined with error_log_jira.
+    $watchdog_items = error_log_jira_items_from_watchdog($number, $severity_levels);
+
+    if (isset($watchdog_items) && count($watchdog_items)) {
+      // Take each item one by one.
+      foreach ($watchdog_items as $watchdog_item) {
+        // Take the name of the severity.
+        $severity_name = $severity_levels[$watchdog_item->severity];
+
+        // Create the table with the data that will send to jira.
+        error_log_jira_update_db_and_jira($watchdog_item, $severity_name, $options, $project_key);
+      }
+    }
+
+    // Clean old values.
+    error_log_jira_keep_latest_records();
+  }
+}
