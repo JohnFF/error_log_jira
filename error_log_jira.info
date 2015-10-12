@@ -4,7 +4,4 @@ package = Other
 core = 7.x
 configure = admin/config/development/logging/jira
 
-files[] = includes/error_log_jira.functions.inc
-files[] = includes/error_log_jira.admin.inc
-
 dependencies[] = jira_rest
