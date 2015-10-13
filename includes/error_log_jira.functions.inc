@@ -10,12 +10,12 @@
 
 /**
  * Select the items, from watchdog leftjoined with error_log_jira, that has
+ *
  * resolution = NULL, ordered by resolution_updated.
  *
  * @param string $number
  *   The number that the user has selected. This number shows how many values
- *   will be checked from watchdog on every cron run..
- *
+ *   will be checked from watchdog on every cron run.
  * @param array $severity_levels
  *   An array with the severities, and their ids, that the user has selected
  *   in checkboxes.
