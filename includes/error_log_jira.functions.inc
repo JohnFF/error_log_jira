@@ -147,8 +147,7 @@ function error_log_jira_create_issue($watchdog_item, $level, array $options, $pr
 }
 
 /**
- * Get the resolution from jira and update the columns of resolution and
- * resolution_updated in error_log_jira table.
+ * Get the resolution from jira and update the db.
  *
  * @param array $options
  *   An array with the username and the password from jira_rest module.
