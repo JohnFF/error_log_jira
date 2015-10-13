@@ -14,7 +14,6 @@
  * @param string $number
  *   The number that the user has selected. This number shows how many values
  *   will be checked from watchdog on every cron run.
- *
  * @param array $severity_levels
  *   An array with the severities, and their ids, that the user has selected
  *   in checkboxes.
