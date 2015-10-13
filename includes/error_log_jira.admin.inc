@@ -58,8 +58,8 @@ function error_log_jira_settings_form($form, &$form_state) {
     // Loop through each watchdog_severity_levels and create a severity_options
     // array().
     foreach (watchdog_severity_levels() as $number_select => $severity) {
-      $error_log_jira_severity_options[$severity] = drupal_ucfirst(
-        $severity);
+      $error_log_jira_severity_options[$severity] = drupal_ucfirst($severity);
+      $number_select == $number_select;
     }
 
     // Checkboxes form.
