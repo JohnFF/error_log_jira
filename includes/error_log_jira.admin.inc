@@ -17,7 +17,7 @@ function error_log_jira_settings_form($form, &$form_state) {
 
   // Check if the url field of jira_rest module has the default value.
   if ($url == 'https://yourjira.com:8443') {
-    drupal_set_message("You have to complete the fields in !link first.",
+    drupal_set_message(t("You have to complete the fields in !link first."),
       array('!link' => l("jira_rest", 'admin/config/services/jira_rest')), 'error');
   }
   else {
