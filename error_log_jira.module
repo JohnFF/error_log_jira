@@ -54,7 +54,7 @@ function error_log_jira_help($path) {
  */
 function error_log_jira_cron() {
   // Check if the user has selected a number or No Values.
-  if (variable_get('error_log_jira_number_select' . '0') != '0') {
+  if (variable_get('error_log_jira_number_select') != '0') {
     module_load_include('inc', 'error_log_jira', 'includes/error_log_jira.functions');
 
     // The $number is the number of the items that will
