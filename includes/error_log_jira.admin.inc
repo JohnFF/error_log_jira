@@ -39,6 +39,8 @@ function error_log_jira_settings_form($form, &$form_state) {
       '6'  => '6',
       '10' => '10',
       '25' => '25',
+      '100' => '100',
+      '250' => '250',
     );
     $form['error_log_jira_number_select'] = array(
       '#type'          => 'select',

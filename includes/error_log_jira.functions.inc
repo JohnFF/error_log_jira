@@ -131,7 +131,7 @@ function error_log_jira_create_issue($watchdog_item, $level, array $options, $pr
       'summary'     => '[' . $wid . '] ' . $type . ' - ' . $level,
       'description' => $db_message,
       'priority'    => array('id' => '3'),
-      'issuetype'   => array('id' => '1'),
+      'issuetype'   => array('name' => 'Task'),
     ),
   );
   $jql_string  = ('project = ' . $project_key . ' and summary ~ ' . $wid);
